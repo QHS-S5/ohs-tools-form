@@ -124,6 +124,180 @@ const PROGRESSION = {
   ],
 };
 
+// Plain-English explainers for each "I can" statement — shown when learner taps ?
+const EXPLAINERS = {
+  "Problem Solving": [
+    "You can say what the problem is in your own words — like explaining it to a friend.",
+    "You notice when a new problem reminds you of something you've dealt with before.",
+    "You look things up or ask around to understand the problem better before jumping in.",
+    "You can figure out why the problem is happening, not just what the problem is.",
+    "You can think of more than one way to fix something, not just the first idea.",
+    "You take what worked (or didn't) last time and use that knowledge on a new problem.",
+    "You can weigh up your options and pick the best one, explaining why.",
+    "When your first plan doesn't work, you change it rather than giving up or starting over.",
+    "You can break a big, messy problem into smaller steps and work through them in order.",
+    "You think about how you solve problems — what your go-to strategies are and when they work best.",
+  ],
+  "Critical Thinking": [
+    "You know the difference between something that's true and something that's just someone's opinion.",
+    "You can go and find out about a topic by yourself, without being told exactly where to look.",
+    "You pick good sources — not just the first thing that comes up on Google.",
+    "You know that some websites, books or people are more reliable than others, and you check.",
+    "You can spot when an argument doesn't make sense and explain what's wrong with it.",
+    "You can back up what you think with evidence you've actually looked at, not just a feeling.",
+    "You look at information from different places, weigh it up, and form your own view.",
+    "You can look at someone else's argument and say clearly why it's strong or weak.",
+    "You can build a proper argument on a tricky topic and handle it when someone disagrees.",
+    "You think about your own thinking — you know what you're good at and where you might go wrong.",
+  ],
+  "Creativity": [
+    "When given a task, you can come up with at least one idea to get started.",
+    "You don't just go with your first idea — you can think of a few different approaches.",
+    "You're willing to try things out and experiment, even if you're not sure they'll work.",
+    "You test your ideas to see what works and learn from what doesn't.",
+    "You can look at your own work honestly, spot what could be better, and improve it.",
+    "You get inspiration from other people's work and use it to spark your own ideas.",
+    "You help other people come up with ideas — you're good at getting creative thinking going in a group.",
+    "You can give useful creative feedback — not just 'it's good' but actual ideas for improvement.",
+    "You think about what helps you be creative — what gets your best ideas flowing and how you develop them.",
+    "You can use your creativity in different situations, adapting how you work based on what you've learned about yourself.",
+  ],
+  "Curiosity": [
+    "You're interested in finding out new things — learning doesn't feel like a chore.",
+    "You can teach yourself something new without someone telling you to.",
+    "You use different sources — books, websites, videos, people — to find out more about things you're interested in.",
+    "When something confuses you, your instinct is to look into it rather than just leave it.",
+    "You ask questions in class or to your mates to understand things better.",
+    "You like wondering 'what if we did it differently?' — you enjoy exploring alternatives.",
+    "You go deep on topics that interest you, using lots of different sources to really understand them.",
+    "You go beyond what's been set — you look for extra information and different viewpoints because you want to.",
+    "You actively look for chances to learn, without waiting for someone to point you there.",
+    "You connect ideas across different subjects — something from Science makes you think about something in English.",
+  ],
+  "Resilience": [
+    "When something goes wrong, you don't just stop — you have another go.",
+    "If plans change suddenly, you can deal with it without falling apart.",
+    "When you fail or get knocked back, you can handle the feelings and keep going.",
+    "You can manage stress or disappointment without losing sight of what you're working toward.",
+    "You don't just bounce back — you actually learn something from setbacks and change your approach.",
+    "Even when things are tough, you find ways to keep your effort up — you have strategies.",
+    "You notice when others are struggling and help them keep going.",
+    "You can support other people through difficult times, helping them stay focused.",
+    "You stick with something even when you've hit multiple setbacks — you don't give up on your goals.",
+    "You understand your own patterns — you know how you tend to react to difficulty and what helps you through.",
+  ],
+  "Responsibility": [
+    "When you're given something to do, you do it — you don't leave things half-finished.",
+    "If you can't keep a commitment, you sort it out so it doesn't cause problems for others.",
+    "You understand that your choices have consequences — good and bad.",
+    "When you get it wrong, you admit it and learn from it rather than making excuses.",
+    "If you see something unfair or wrong happening, you try to do something about it.",
+    "You take charge of your own learning — you set goals, manage your time, and hold yourself to account.",
+    "In group work, you step up and take on tasks — and you actually do them.",
+    "You think about how what you do affects other people, not just yourself.",
+    "You do the right thing even when nobody's watching and even when it's hard.",
+    "You think about the patterns in your decisions — why you make the choices you do and what influences you.",
+  ],
+  "Leadership": [
+    "In a group, you speak up with your ideas and you listen to what others have to say.",
+    "You take responsibility for your part of the work and pay attention to how others are getting on.",
+    "You can encourage and motivate people in a group — you help keep energy up.",
+    "You can take charge of a group and give people clear direction on what to do.",
+    "You allocate roles based on what people are good at, not just randomly.",
+    "You notice when the group is struggling and you step in to help.",
+    "You can coach someone — help them improve at something in a way that feels positive, not critical.",
+    "You can plan a whole group strategy for a complex task — roles, timelines, outcomes, the lot.",
+    "You think honestly about your own leadership — what you do well and what you could do better.",
+    "You change how you lead depending on the situation and the people you're working with.",
+  ],
+  "Collaboration": [
+    "You get stuck in and do your fair share of the work in a group.",
+    "You can take on different roles — you're not stuck always doing the same thing.",
+    "You actually listen to other people's ideas and take them seriously, even when they're different from yours.",
+    "You communicate well in a group without causing arguments.",
+    "When someone gives you feedback, you take it on board and adjust how you work.",
+    "You help quieter group members have their say and contribute.",
+    "When there's a disagreement in the group, you help sort it out.",
+    "You can see what different people are good at and help the group make the most of everyone's strengths.",
+    "You think about what kind of team member you are and actively work to improve.",
+    "You help other people get better at working in teams — even when their ideas are different from yours.",
+  ],
+  "Open-Mindedness": [
+    "You can hear someone say something you disagree with without shutting them down.",
+    "You're willing to try a different way of doing things, even if it's not what you're used to.",
+    "You can try someone else's approach even if you'd normally do it differently.",
+    "You deliberately look for viewpoints that are different from your own.",
+    "When someone makes a really good point, you can change your mind — you don't just stick to your original view out of stubbornness.",
+    "You can engage with ideas that make you uncomfortable rather than just avoiding them.",
+    "You recognise that you have biases — things you assume without thinking — and you understand them.",
+    "You can set your biases aside when the evidence points in a different direction.",
+    "You think about how your own background and experiences shape the way you see things.",
+    "You understand that other people's backgrounds shape their views too, and you can empathise with that.",
+  ],
+  "Empathy": [
+    "You can tell when someone around you is upset, uncomfortable, or not themselves.",
+    "You think about how what you do might make other people feel.",
+    "You can listen to someone's point of view properly, even when you see things differently.",
+    "You can put yourself in someone else's shoes — you think about why they might feel or think the way they do.",
+    "You adjust how you behave depending on how others might be feeling in that moment.",
+    "You factor in other people's situations when making decisions — not just what works for you.",
+    "When someone's going through a hard time, you ask what they actually need rather than assuming.",
+    "You actively look for ways to help other people — volunteering, supporting, getting involved.",
+    "You help other people see perspectives they hadn't considered before.",
+    "You think about how your own likes, dislikes, and assumptions affect how you treat others, and you work on it.",
+  ],
+};
+
+// Context-aware STAR sentence starters
+const STAR_STARTERS = {
+  situation: {
+    Curriculum: (subject) => [
+      `In ${subject || "class"}, we were working on...`,
+      `During a ${subject || "lesson"} task, our group had to...`,
+      `In ${subject || "my subject"}, the teacher asked us to...`,
+    ],
+    "Wider Achievement": () => [
+      "During a club/activity, we were...",
+      "At a school event, I was involved in...",
+      "Outside of class, I took part in...",
+    ],
+    "Skills Academy": () => [
+      "In Skills Academy, we were asked to...",
+      "During our Skills Academy session, the challenge was...",
+      "Our Skills Academy project involved...",
+    ],
+    Partnership: () => [
+      "While working with our partner organisation, we...",
+      "During a visit/project with...",
+      "As part of our partnership activity, I was...",
+    ],
+  },
+  task: {
+    _default: () => [
+      "My role was to...",
+      "I was responsible for...",
+      "I needed to...",
+      "The group needed me to...",
+    ],
+  },
+  action: {
+    _default: (skill) => [
+      `I used my ${skill} by...`,
+      "I decided to...",
+      "The steps I took were...",
+      "To handle this, I...",
+    ],
+  },
+  result: {
+    _default: () => [
+      "As a result of this,...",
+      "This meant that...",
+      "I learned that I...",
+      "Looking back, I realise that...",
+    ],
+  },
+};
+
 // ─── Framework Structure ─────────────────────────────────────────────────────
 const FRAMEWORK = {
   "Works Hard": {
@@ -301,19 +475,33 @@ function StepSkill({ domain, selected, onSelect }) {
 
 function StepLevel({ skill, level, onSelect }) {
   const statements = PROGRESSION[skill] || [];
+  const explainers = EXPLAINERS[skill] || [];
+  const [expandedHelp, setExpandedHelp] = useState(null);
   return (
     <div>
       <h2 style={h2Style}>Where are you on the {skill} ladder?</h2>
-      <p style={descStyle}>Read the statements below. Select the <strong>highest level</strong> you can confidently do right now.</p>
+      <p style={descStyle}>Read the statements below. Select the <strong>highest level</strong> you can confidently do right now. <span style={{ color: "#6366f1", fontWeight: 600 }}>Tap the ? for a plain-English explanation.</span></p>
       <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
         {statements.map((stmt, i) => {
           const lv = i + 1;
           const isSel = level === lv;
           const isBelow = level !== null && lv <= level;
+          const isHelpOpen = expandedHelp === lv;
           return (
-            <div key={lv} onClick={() => onSelect(lv)} style={{ display: "flex", alignItems: "flex-start", gap: "11px", padding: "11px 13px", borderRadius: "10px", cursor: "pointer", border: `2px solid ${isSel ? "#6366f1" : isBelow ? "#c7d2fe" : "#f1f5f9"}`, background: isSel ? "#eef2ff" : isBelow ? "#fafaff" : "#fff", transition: "all 0.12s" }}>
-              <div style={{ width: 28, height: 28, borderRadius: "50%", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", background: isSel ? "#6366f1" : isBelow ? "#c7d2fe" : "#f1f5f9", color: isSel ? "#fff" : isBelow ? "#6366f1" : "#94a3b8", fontSize: "12px", fontWeight: 800 }}>{lv}</div>
-              <div style={{ fontSize: "12.5px", color: isSel ? "#1e293b" : "#475569", fontWeight: isSel ? 600 : 400, lineHeight: "1.5", paddingTop: "3px" }}>{stmt}</div>
+            <div key={lv} style={{ borderRadius: "10px", border: `2px solid ${isSel ? "#6366f1" : isBelow ? "#c7d2fe" : "#f1f5f9"}`, background: isSel ? "#eef2ff" : isBelow ? "#fafaff" : "#fff", transition: "all 0.12s" }}>
+              <div onClick={() => onSelect(lv)} style={{ display: "flex", alignItems: "flex-start", gap: "11px", padding: "11px 13px", cursor: "pointer" }}>
+                <div style={{ width: 28, height: 28, borderRadius: "50%", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", background: isSel ? "#6366f1" : isBelow ? "#c7d2fe" : "#f1f5f9", color: isSel ? "#fff" : isBelow ? "#6366f1" : "#94a3b8", fontSize: "12px", fontWeight: 800 }}>{lv}</div>
+                <div style={{ flex: 1, fontSize: "12.5px", color: isSel ? "#1e293b" : "#475569", fontWeight: isSel ? 600 : 400, lineHeight: "1.5", paddingTop: "3px" }}>{stmt}</div>
+                {explainers[i] && (
+                  <div onClick={(e) => { e.stopPropagation(); setExpandedHelp(isHelpOpen ? null : lv); }}
+                    style={{ width: 22, height: 22, borderRadius: "50%", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", background: isHelpOpen ? "#6366f1" : "#f1f5f9", color: isHelpOpen ? "#fff" : "#94a3b8", fontSize: "11px", fontWeight: 800, cursor: "pointer", marginTop: "2px", transition: "all 0.15s" }}>?</div>
+                )}
+              </div>
+              {isHelpOpen && explainers[i] && (
+                <div style={{ padding: "0 13px 12px 52px", fontSize: "12px", color: "#6366f1", lineHeight: "1.6", fontStyle: "italic" }}>
+                  💡 {explainers[i]}
+                </div>
+              )}
             </div>
           );
         })}
@@ -347,7 +535,7 @@ function StepContext({ context, onSelect, subject, onSubject }) {
   );
 }
 
-function StepStar({ star, onChange, skill }) {
+function StepStar({ star, onChange, skill, context, subject }) {
   const prompts = {
     situation: "Describe the situation. What were you doing? What was the context?",
     task: "What was your task or role? What were you trying to achieve?",
@@ -356,17 +544,48 @@ function StepStar({ star, onChange, skill }) {
   };
   const labels = { situation: "Situation", task: "Task", action: "Action", result: "Result" };
   const colors = { situation: "#6366f1", task: "#f59e0b", action: "#10b981", result: "#ec4899" };
+  const [showStarters, setShowStarters] = useState({});
+
+  const getStarters = (key) => {
+    if (key === "situation") {
+      const ctxStarters = STAR_STARTERS.situation[context];
+      return ctxStarters ? ctxStarters(subject) : STAR_STARTERS.situation["Curriculum"](subject);
+    }
+    if (key === "action") return STAR_STARTERS.action._default(skill);
+    return STAR_STARTERS[key]._default();
+  };
+
   return (
     <div>
       <h2 style={h2Style}>Tell the story of your experience</h2>
-      <p style={descStyle}>Use the <strong>STAR</strong> approach. This is the evidence that builds your profile.</p>
+      <p style={descStyle}>Use the <strong>STAR</strong> approach. This is the evidence that builds your profile. <span style={{ color: "#6366f1", fontWeight: 600 }}>Need help? Tap "Help me start" for sentence starters.</span></p>
       {["situation", "task", "action", "result"].map((key) => (
         <div key={key} style={{ marginBottom: "14px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "6px" }}>
-            <div style={{ width: 26, height: 26, borderRadius: "6px", background: colors[key], display: "flex", alignItems: "center", justifyContent: "center", fontSize: "13px", fontWeight: 900, color: "#fff" }}>{key[0].toUpperCase()}</div>
-            <div style={{ fontSize: "13px", fontWeight: 700, color: "#1e293b" }}>{labels[key]}</div>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "6px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <div style={{ width: 26, height: 26, borderRadius: "6px", background: colors[key], display: "flex", alignItems: "center", justifyContent: "center", fontSize: "13px", fontWeight: 900, color: "#fff" }}>{key[0].toUpperCase()}</div>
+              <div style={{ fontSize: "13px", fontWeight: 700, color: "#1e293b" }}>{labels[key]}</div>
+            </div>
+            {star[key].length < 5 && (
+              <button onClick={() => setShowStarters((prev) => ({ ...prev, [key]: !prev[key] }))}
+                style={{ background: showStarters[key] ? "#6366f1" : "#f1f5f9", color: showStarters[key] ? "#fff" : "#6366f1", border: "none", borderRadius: "6px", padding: "4px 10px", fontSize: "10px", fontWeight: 700, cursor: "pointer", fontFamily: "'DM Sans', sans-serif", transition: "all 0.15s" }}>
+                {showStarters[key] ? "Hide starters" : "Help me start"}
+              </button>
+            )}
           </div>
           <div style={{ fontSize: "11px", color: "#94a3b8", marginBottom: "5px" }}>{prompts[key]}</div>
+          {showStarters[key] && star[key].length < 5 && (
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: "8px" }}>
+              {getStarters(key).map((starter, i) => (
+                <button key={i} onClick={() => { onChange(key, starter); setShowStarters((prev) => ({ ...prev, [key]: false })); }}
+                  style={{ padding: "6px 12px", borderRadius: "8px", border: "1.5px solid #c7d2fe", background: "#fafaff", fontSize: "12px", color: "#475569", cursor: "pointer", fontFamily: "'DM Sans', sans-serif", textAlign: "left", lineHeight: "1.4", transition: "all 0.15s" }}
+                  onMouseOver={(e) => { e.target.style.background = "#eef2ff"; e.target.style.borderColor = "#6366f1"; }}
+                  onMouseOut={(e) => { e.target.style.background = "#fafaff"; e.target.style.borderColor = "#c7d2fe"; }}>
+                  {starter}
+                </button>
+              ))}
+            </div>
+          )}
           <textarea value={star[key]} onChange={(e) => onChange(key, e.target.value)} placeholder={`Write about the ${labels[key].toLowerCase()}...`} rows={3}
             style={{ width: "100%", padding: "11px 13px", borderRadius: "10px", border: "1.5px solid #e2e8f0", fontSize: "13px", lineHeight: "1.6", resize: "vertical", outline: "none", boxSizing: "border-box", fontFamily: "'DM Sans', sans-serif", color: "#1e293b" }}
             onFocus={(e) => e.target.style.borderColor = colors[key]} onBlur={(e) => e.target.style.borderColor = "#e2e8f0"} />
@@ -532,7 +751,7 @@ export default function ToolsFormLive() {
           {step === 2 && domain && <StepSkill domain={domain} selected={skill} onSelect={setSkill} />}
           {step === 3 && skill && <StepLevel skill={skill} level={level} onSelect={setLevel} />}
           {step === 4 && <StepContext context={context} onSelect={setContext} subject={subject} onSubject={setSubject} />}
-          {step === 5 && <StepStar star={star} onChange={(k, v) => setStar((p) => ({ ...p, [k]: v }))} skill={skill} />}
+          {step === 5 && <StepStar star={star} onChange={(k, v) => setStar((p) => ({ ...p, [k]: v }))} skill={skill} context={context} subject={subject} />}
           {step === 6 && <StepReview name={name} yearGroup={yearGroup} domain={domain} skill={skill} level={level} context={context} subject={subject} star={star} />}
         </div>
 

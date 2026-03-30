@@ -362,7 +362,7 @@ async function submitToWebhook(url, data) {
   });
   if (!r.ok) {
     let msg = `HTTP ${r.status}`;
-    try { const err = await r.json(); msg = err.error || msg; } catch {}
+    try { const err = await r.json(); msg = err.error || msg; } catch { /* use default msg */ }
     throw new Error(msg);
   }
   return r;

@@ -18,10 +18,10 @@ export async function handler(event) {
     return { statusCode: 400, body: JSON.stringify({ error: "No webhook URL configured" }) };
   }
 
-  // Only allow requests to Power Automate / Logic Apps endpoints
+  // Only allow HTTPS requests to Power Automate / Logic Apps endpoints
   try {
     const parsed = new URL(targetUrl);
-    if (!parsed.hostname.endsWith(".logic.azure.com")) {
+    if (parsed.protocol !== "https:" || !parsed.hostname.endsWith(".logic.azure.com")) {
       return { statusCode: 400, body: JSON.stringify({ error: "Invalid webhook URL" }) };
     }
   } catch {

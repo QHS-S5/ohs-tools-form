@@ -18,7 +18,7 @@ export async function handler(event) {
   // open proxy to arbitrary destinations.
   const targetUrl = serverWebhookUrl || body.url || "";
   if (!targetUrl) {
-    return { statusCode: 400, body: JSON.stringify({ error: "No webhook URL configured" }) };
+    return { statusCode: 400, body: JSON.stringify({ error: "Webhook URL is not configured. Please contact your administrator." }) };
   }
 
   // Only allow HTTPS requests to Microsoft Power Automate / Azure endpoints

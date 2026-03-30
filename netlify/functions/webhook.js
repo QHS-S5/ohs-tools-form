@@ -4,7 +4,7 @@ export async function handler(event) {
   }
 
   const webhookKey = process.env.WEBHOOK_KEY || "";
-  const webhookUrl = process.env.WEBHOOK_URL || "";
+  const serverWebhookUrl = process.env.WEBHOOK_URL || "";
 
   let body;
   try {
@@ -13,19 +13,26 @@ export async function handler(event) {
     return { statusCode: 400, body: JSON.stringify({ error: "Invalid JSON" }) };
   }
 
-  const targetUrl = body.url || webhookUrl;
+  // Prefer the server-configured URL; fall back to the client-supplied URL.
+  // Using the server URL when available prevents the function being used as an
+  // open proxy to arbitrary destinations.
+  const targetUrl = serverWebhookUrl || body.url || "";
   if (!targetUrl) {
     return { statusCode: 400, body: JSON.stringify({ error: "No webhook URL configured" }) };
   }
 
-  // Only allow HTTPS requests to Power Automate / Logic Apps endpoints
+  // Only allow HTTPS requests to Microsoft Power Automate / Azure endpoints
   try {
     const parsed = new URL(targetUrl);
-    if (parsed.protocol !== "https:" || !parsed.hostname.endsWith(".logic.azure.com")) {
-      return { statusCode: 400, body: JSON.stringify({ error: "Invalid webhook URL" }) };
+    const host = parsed.hostname;
+    const isMicrosoftHost =
+      host.endsWith(".logic.azure.com") ||
+      host.endsWith(".api.powerplatform.com");
+    if (parsed.protocol !== "https:" || !isMicrosoftHost) {
+      return { statusCode: 400, body: JSON.stringify({ error: "Invalid webhook URL: must be an HTTPS Microsoft/Azure endpoint" }) };
     }
   } catch {
-    return { statusCode: 400, body: JSON.stringify({ error: "Invalid webhook URL" }) };
+    return { statusCode: 400, body: JSON.stringify({ error: "Invalid webhook URL: must be a valid HTTPS URL" }) };
   }
 
   const headers = { "Content-Type": "application/json" };

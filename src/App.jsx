@@ -354,11 +354,17 @@ function getTerm(dateStr) {
   return "Term 4";
 }
 
-async function submitToWebhook(url, key, data) {
-  const headers = { "Content-Type": "application/json" };
-  if (key) headers["x-qhs-key"] = key;
-  const r = await fetch(url, { method: "POST", headers, body: JSON.stringify(data) });
-  if (!r.ok) throw new Error(`HTTP ${r.status}: ${r.statusText}`);
+async function submitToWebhook(url, data) {
+  const r = await fetch("/.netlify/functions/webhook", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ url, data }),
+  });
+  if (!r.ok) {
+    let msg = `HTTP ${r.status}`;
+    try { const err = await r.json(); msg = err.error || msg; } catch { /* use default msg */ }
+    throw new Error(msg);
+  }
   return r;
 }
 
@@ -643,7 +649,6 @@ function StepReview({ name, yearGroup, domain, skill, level, context, subject, s
 export default function ToolsFormLive() {
   const [showSettings, setShowSettings] = useState(false);
   const [webhookUrl, setWebhookUrl] = useState(import.meta.env.VITE_WEBHOOK_URL || "");
-  const webhookKey = import.meta.env.VITE_WEBHOOK_KEY || "";
   const [testResult, setTestResult] = useState(null);
 
   const [step, setStep] = useState(0);
@@ -684,7 +689,7 @@ export default function ToolsFormLive() {
     setTestResult(null);
     try {
       const ts = new Date().toISOString();
-      await submitToWebhook(webhookUrl, webhookKey, { timestamp: ts, date: ts.slice(0, 10), term: getTerm(ts), name: "TEST SUBMISSION", studentName: "TEST SUBMISSION", yearGroup: "S1", regClass: "TEST", domain: "Works Hard", skill: "Problem Solving", level: 5, iCanStatement: "I can identify several possible solutions to a problem", context: "Curriculum", subject: "Test Subject", situation: "Test submission from QHS Tools for Success form.", task: "Testing the Power Automate webhook.", action: "Sent a POST request.", result: "If you see this row in Excel, it works." });
+      await submitToWebhook(webhookUrl, { timestamp: ts, date: ts.slice(0, 10), term: getTerm(ts), name: "TEST SUBMISSION", studentName: "TEST SUBMISSION", yearGroup: "S1", regClass: "TEST", domain: "Works Hard", skill: "Problem Solving", level: 5, iCanStatement: "I can identify several possible solutions to a problem", context: "Curriculum", subject: "Test Subject", situation: "Test submission from QHS Tools for Success form.", task: "Testing the Power Automate webhook.", action: "Sent a POST request.", result: "If you see this row in Excel, it works." });
       setTestResult({ ok: true });
     } catch (err) { setTestResult({ ok: false, msg: err.message }); }
   };
@@ -692,7 +697,7 @@ export default function ToolsFormLive() {
   const handleSubmit = async () => {
     setSubmitting(true); setSubmitError(null);
     if (!webhookUrl) { setSubmitError("Webhook URL is not configured. Please contact your administrator."); setSubmitting(false); return; }
-    try { await submitToWebhook(webhookUrl, webhookKey, buildPayload()); setSubmitted(true); }
+    try { await submitToWebhook(webhookUrl, buildPayload()); setSubmitted(true); }
     catch (err) { setSubmitError(err.message); }
     finally { setSubmitting(false); }
   };

@@ -48,9 +48,24 @@ export async function handler(event) {
     });
 
     if (!response.ok) {
+      let upstream = "";
+      try { upstream = await response.text(); } catch { /* ignore */ }
+
+      // Build a descriptive error for the client
+      let error = `Webhook responded with ${response.status}: ${response.statusText}`;
+      if (response.status === 401 || response.status === 403) {
+        const keyConfigured = Boolean(webhookKey);
+        error += keyConfigured
+          ? ". An api-key was sent but the endpoint rejected it — verify that WEBHOOK_KEY matches the key expected by your Power Automate flow."
+          : ". No WEBHOOK_KEY environment variable is set — add it in your Netlify site settings under Environment Variables.";
+      }
+      if (upstream) {
+        error += ` Upstream response: ${upstream.slice(0, 200)}`;
+      }
+
       return {
         statusCode: response.status,
-        body: JSON.stringify({ error: `Webhook responded with ${response.status}: ${response.statusText}` }),
+        body: JSON.stringify({ error }),
       };
     }
 

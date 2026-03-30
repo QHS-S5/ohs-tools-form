@@ -354,11 +354,11 @@ function getTerm(dateStr) {
   return "Term 4";
 }
 
-async function submitToWebhook(url, data) {
+async function submitToWebhook(data) {
   const r = await fetch("/.netlify/functions/webhook", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ url, data }),
+    body: JSON.stringify({ data }),
   });
   if (!r.ok) {
     let msg = `HTTP ${r.status}`;
@@ -369,7 +369,7 @@ async function submitToWebhook(url, data) {
 }
 
 // ─── Settings Panel ──────────────────────────────────────────────────────────
-function SettingsPanel({ webhookUrl, setWebhookUrl, onClose, testResult, onTest }) {
+function SettingsPanel({ onClose, testResult, onTest }) {
   return (
     <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center" }}>
       <div style={{ background: "#fff", borderRadius: "16px", padding: "28px", maxWidth: "560px", width: "90%", boxShadow: "0 20px 60px rgba(0,0,0,0.2)", fontFamily: "'DM Sans', sans-serif" }}>
@@ -377,17 +377,8 @@ function SettingsPanel({ webhookUrl, setWebhookUrl, onClose, testResult, onTest 
           <h2 style={{ margin: 0, fontSize: "18px", fontWeight: 800, color: "#1e293b" }}>⚙️ Form Settings</h2>
           <button onClick={onClose} style={{ background: "none", border: "none", fontSize: "20px", cursor: "pointer", color: "#94a3b8" }}>✕</button>
         </div>
-        <div style={{ marginBottom: "20px" }}>
-          <label style={{ fontSize: "13px", fontWeight: 700, color: "#475569", display: "block", marginBottom: "6px" }}>Power Automate Webhook URL</label>
-          <input type="url" value={webhookUrl} onChange={(e) => setWebhookUrl(e.target.value)}
-            placeholder="https://prod-xx.westeurope.logic.azure.com:443/workflows/..."
-            style={{ width: "100%", padding: "12px 14px", borderRadius: "10px", border: "1.5px solid #e2e8f0", fontSize: "13px", fontFamily: "'Fira Code', monospace", boxSizing: "border-box", color: "#334155", outline: "none" }} />
-          <div style={{ fontSize: "11px", color: "#94a3b8", marginTop: "6px", lineHeight: "1.5" }}>
-            Paste the HTTP POST URL from your Power Automate flow. Data goes directly to your school OneDrive.
-          </div>
-        </div>
-        <button onClick={onTest} disabled={!webhookUrl}
-          style={{ padding: "10px 20px", borderRadius: "8px", fontSize: "13px", fontWeight: 700, background: webhookUrl ? "#6366f1" : "#e2e8f0", color: webhookUrl ? "#fff" : "#94a3b8", border: "none", cursor: webhookUrl ? "pointer" : "default", fontFamily: "'DM Sans', sans-serif", marginBottom: "16px" }}>
+        <button onClick={onTest}
+          style={{ padding: "10px 20px", borderRadius: "8px", fontSize: "13px", fontWeight: 700, background: "#6366f1", color: "#fff", border: "none", cursor: "pointer", fontFamily: "'DM Sans', sans-serif", marginBottom: "16px" }}>
           Send Test Submission
         </button>
         {testResult && (
@@ -648,7 +639,6 @@ function StepReview({ name, yearGroup, domain, skill, level, context, subject, s
 // ─── Main App ────────────────────────────────────────────────────────────────
 export default function ToolsFormLive() {
   const [showSettings, setShowSettings] = useState(false);
-  const [webhookUrl, setWebhookUrl] = useState(import.meta.env.VITE_WEBHOOK_URL || "");
   const [testResult, setTestResult] = useState(null);
 
   const [step, setStep] = useState(0);
@@ -689,15 +679,14 @@ export default function ToolsFormLive() {
     setTestResult(null);
     try {
       const ts = new Date().toISOString();
-      await submitToWebhook(webhookUrl, { timestamp: ts, date: ts.slice(0, 10), term: getTerm(ts), name: "TEST SUBMISSION", studentName: "TEST SUBMISSION", yearGroup: "S1", regClass: "TEST", domain: "Works Hard", skill: "Problem Solving", level: 5, iCanStatement: "I can identify several possible solutions to a problem", context: "Curriculum", subject: "Test Subject", situation: "Test submission from QHS Tools for Success form.", task: "Testing the Power Automate webhook.", action: "Sent a POST request.", result: "If you see this row in Excel, it works." });
+      await submitToWebhook({ timestamp: ts, date: ts.slice(0, 10), term: getTerm(ts), name: "TEST SUBMISSION", studentName: "TEST SUBMISSION", yearGroup: "S1", regClass: "TEST", domain: "Works Hard", skill: "Problem Solving", level: 5, iCanStatement: "I can identify several possible solutions to a problem", context: "Curriculum", subject: "Test Subject", situation: "Test submission from QHS Tools for Success form.", task: "Testing the Power Automate webhook.", action: "Sent a POST request.", result: "If you see this row in Excel, it works." });
       setTestResult({ ok: true });
     } catch (err) { setTestResult({ ok: false, msg: err.message }); }
   };
 
   const handleSubmit = async () => {
     setSubmitting(true); setSubmitError(null);
-    if (!webhookUrl) { setSubmitError("Webhook URL is not configured. Please contact your administrator."); setSubmitting(false); return; }
-    try { await submitToWebhook(webhookUrl, buildPayload()); setSubmitted(true); }
+    try { await submitToWebhook(buildPayload()); setSubmitted(true); }
     catch (err) { setSubmitError(err.message); }
     finally { setSubmitting(false); }
   };
@@ -724,7 +713,7 @@ export default function ToolsFormLive() {
   return (
     <div style={{ fontFamily: "'DM Sans', sans-serif", minHeight: "100vh", background: "linear-gradient(180deg, #0f172a 0%, #1e293b 110px, #f8fafc 111px)" }}>
       <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-      {showSettings && <SettingsPanel webhookUrl={webhookUrl} setWebhookUrl={setWebhookUrl} onClose={() => setShowSettings(false)} testResult={testResult} onTest={handleTest} />}
+      {showSettings && <SettingsPanel onClose={() => setShowSettings(false)} testResult={testResult} onTest={handleTest} />}
 
       <div style={{ padding: "16px 24px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
@@ -735,8 +724,6 @@ export default function ToolsFormLive() {
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          {!webhookUrl && <div style={{ fontSize: "10px", color: "#f59e0b", background: "#f59e0b18", padding: "4px 10px", borderRadius: "6px", fontWeight: 600 }}>Demo Mode</div>}
-          {webhookUrl && <div style={{ fontSize: "10px", color: "#10b981", background: "#10b98118", padding: "4px 10px", borderRadius: "6px", fontWeight: 600 }}>🟢 Connected</div>}
           <button onClick={() => setShowSettings(true)} style={{ background: "rgba(255,255,255,0.1)", border: "none", borderRadius: "8px", padding: "8px 14px", fontSize: "12px", color: "#94a3b8", cursor: "pointer", fontFamily: "'DM Sans', sans-serif", fontWeight: 600 }}>⚙️</button>
         </div>
       </div>

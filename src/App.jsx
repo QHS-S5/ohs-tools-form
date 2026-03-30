@@ -354,8 +354,10 @@ function getTerm(dateStr) {
   return "Term 4";
 }
 
-async function submitToWebhook(url, data) {
-  const r = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+async function submitToWebhook(url, key, data) {
+  const headers = { "Content-Type": "application/json" };
+  if (key) headers["x-qhs-key"] = key;
+  const r = await fetch(url, { method: "POST", headers, body: JSON.stringify(data) });
   if (!r.ok) throw new Error(`HTTP ${r.status}: ${r.statusText}`);
   return r;
 }
@@ -640,7 +642,8 @@ function StepReview({ name, yearGroup, domain, skill, level, context, subject, s
 // ─── Main App ────────────────────────────────────────────────────────────────
 export default function ToolsFormLive() {
   const [showSettings, setShowSettings] = useState(false);
-  const [webhookUrl, setWebhookUrl] = useState("");
+  const [webhookUrl, setWebhookUrl] = useState(import.meta.env.VITE_WEBHOOK_URL || "");
+  const webhookKey = import.meta.env.VITE_WEBHOOK_KEY || "";
   const [testResult, setTestResult] = useState(null);
 
   const [step, setStep] = useState(0);
@@ -674,21 +677,21 @@ export default function ToolsFormLive() {
 
   const buildPayload = useCallback(() => {
     const now = new Date().toISOString();
-    return { timestamp: now, date: now.slice(0, 10), term: getTerm(now), name: name.trim(), yearGroup, regClass: regClass.trim() || "", domain, skill, level, iCanStatement: (PROGRESSION[skill] || [])[level - 1] || "", context, subject: subject || "", situation: star.situation, task: star.task, action: star.action, result: star.result };
+    return { timestamp: now, date: now.slice(0, 10), term: getTerm(now), name: name.trim(), studentName: name.trim(), yearGroup, regClass: regClass.trim() || "", domain, skill, level, iCanStatement: (PROGRESSION[skill] || [])[level - 1] || "", context, subject: subject || "", situation: star.situation, task: star.task, action: star.action, result: star.result };
   }, [name, yearGroup, regClass, domain, skill, level, context, subject, star]);
 
   const handleTest = async () => {
     setTestResult(null);
     try {
-      await submitToWebhook(webhookUrl, { timestamp: new Date().toISOString(), date: new Date().toISOString().slice(0, 10), term: getTerm(new Date().toISOString()), name: "TEST SUBMISSION", yearGroup: "S1", regClass: "TEST", domain: "Works Hard", skill: "Problem Solving", level: 5, iCanStatement: "I can identify several possible solutions to a problem", context: "Curriculum", subject: "Test Subject", situation: "Test submission from QHS Tools for Success form.", task: "Testing the Power Automate webhook.", action: "Sent a POST request.", result: "If you see this row in Excel, it works." });
+      await submitToWebhook(webhookUrl, webhookKey, { timestamp: new Date().toISOString(), date: new Date().toISOString().slice(0, 10), term: getTerm(new Date().toISOString()), name: "TEST SUBMISSION", studentName: "TEST SUBMISSION", yearGroup: "S1", regClass: "TEST", domain: "Works Hard", skill: "Problem Solving", level: 5, iCanStatement: "I can identify several possible solutions to a problem", context: "Curriculum", subject: "Test Subject", situation: "Test submission from QHS Tools for Success form.", task: "Testing the Power Automate webhook.", action: "Sent a POST request.", result: "If you see this row in Excel, it works." });
       setTestResult({ ok: true });
     } catch (err) { setTestResult({ ok: false, msg: err.message }); }
   };
 
   const handleSubmit = async () => {
     setSubmitting(true); setSubmitError(null);
-    if (!webhookUrl) { setTimeout(() => { setSubmitted(true); setSubmitting(false); }, 800); return; }
-    try { await submitToWebhook(webhookUrl, buildPayload()); setSubmitted(true); }
+    if (!webhookUrl) { setSubmitError("Webhook URL is not configured. Please contact your administrator."); setSubmitting(false); return; }
+    try { await submitToWebhook(webhookUrl, webhookKey, buildPayload()); setSubmitted(true); }
     catch (err) { setSubmitError(err.message); }
     finally { setSubmitting(false); }
   };
@@ -705,7 +708,7 @@ export default function ToolsFormLive() {
           <div style={{ fontSize: "64px", marginBottom: "16px" }}>✅</div>
           <h1 style={{ fontSize: "24px", fontWeight: 800, color: "#1e293b", margin: "0 0 10px" }}>Reflection recorded!</h1>
           <p style={{ fontSize: "14px", color: "#64748b", lineHeight: "1.6", margin: "0 0 6px" }}>Your <strong>{skill}</strong> reflection (Level {level}) has been saved.</p>
-          <p style={{ fontSize: "12px", color: "#94a3b8", margin: "0 0 28px" }}>{webhookUrl ? "Data sent to your school OneDrive." : "Demo mode — add a webhook URL in settings to connect."}</p>
+          <p style={{ fontSize: "12px", color: "#94a3b8", margin: "0 0 28px" }}>Your reflection has been saved to your school OneDrive.</p>
           <button onClick={handleReset} style={{ padding: "14px 32px", borderRadius: "12px", fontSize: "15px", fontWeight: 700, background: "#6366f1", color: "#fff", border: "none", cursor: "pointer", fontFamily: "'DM Sans', sans-serif" }}>Add another reflection</button>
         </div>
       </div>

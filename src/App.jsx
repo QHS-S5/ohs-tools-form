@@ -683,7 +683,8 @@ export default function ToolsFormLive() {
   const handleTest = async () => {
     setTestResult(null);
     try {
-      await submitToWebhook(webhookUrl, webhookKey, { timestamp: new Date().toISOString(), date: new Date().toISOString().slice(0, 10), term: getTerm(new Date().toISOString()), name: "TEST SUBMISSION", studentName: "TEST SUBMISSION", yearGroup: "S1", regClass: "TEST", domain: "Works Hard", skill: "Problem Solving", level: 5, iCanStatement: "I can identify several possible solutions to a problem", context: "Curriculum", subject: "Test Subject", situation: "Test submission from QHS Tools for Success form.", task: "Testing the Power Automate webhook.", action: "Sent a POST request.", result: "If you see this row in Excel, it works." });
+      const ts = new Date().toISOString();
+      await submitToWebhook(webhookUrl, webhookKey, { timestamp: ts, date: ts.slice(0, 10), term: getTerm(ts), name: "TEST SUBMISSION", studentName: "TEST SUBMISSION", yearGroup: "S1", regClass: "TEST", domain: "Works Hard", skill: "Problem Solving", level: 5, iCanStatement: "I can identify several possible solutions to a problem", context: "Curriculum", subject: "Test Subject", situation: "Test submission from QHS Tools for Success form.", task: "Testing the Power Automate webhook.", action: "Sent a POST request.", result: "If you see this row in Excel, it works." });
       setTestResult({ ok: true });
     } catch (err) { setTestResult({ ok: false, msg: err.message }); }
   };

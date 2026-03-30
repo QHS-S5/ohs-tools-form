@@ -37,7 +37,7 @@ export async function handler(event) {
 
   const headers = { "Content-Type": "application/json" };
   if (webhookKey) {
-    headers["x-qhs-key"] = webhookKey;
+    headers["api-key"] = webhookKey;
   }
 
   try {

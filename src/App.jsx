@@ -514,32 +514,6 @@ async function submitToWebhook(data) {
   return r;
 }
 
-// ─── Settings Panel ──────────────────────────────────────────────────────────
-function SettingsPanel({ onClose, testResult, onTest }) {
-  return (
-    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <div style={{ background: "#fff", borderRadius: "16px", padding: "28px", maxWidth: "560px", width: "90%", boxShadow: "0 20px 60px rgba(0,0,0,0.2)", fontFamily: "'DM Sans', sans-serif" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
-          <h2 style={{ margin: 0, fontSize: "18px", fontWeight: 800, color: "#1e293b" }}>⚙️ Form Settings</h2>
-          <button onClick={onClose} style={{ background: "none", border: "none", fontSize: "20px", cursor: "pointer", color: "#94a3b8" }}>✕</button>
-        </div>
-        <button onClick={onTest}
-          style={{ padding: "10px 20px", borderRadius: "8px", fontSize: "13px", fontWeight: 700, background: "#6366f1", color: "#fff", border: "none", cursor: "pointer", fontFamily: "'DM Sans', sans-serif", marginBottom: "16px" }}>
-          Send Test Submission
-        </button>
-        {testResult && (
-          <div style={{ padding: "12px 16px", borderRadius: "10px", fontSize: "13px", lineHeight: "1.5", background: testResult.ok ? "#f0fdf4" : "#fef2f2", color: testResult.ok ? "#16a34a" : "#dc2626", border: `1px solid ${testResult.ok ? "#bbf7d0" : "#fecaca"}` }}>
-            {testResult.ok ? "✅ Test successful! Check your Excel file on OneDrive." : `❌ ${testResult.msg}`}
-          </div>
-        )}
-        <div style={{ marginTop: "20px", padding: "14px", borderRadius: "10px", background: "#f8fafc", border: "1px solid #e2e8f0", fontSize: "12px", color: "#64748b", lineHeight: "1.6" }}>
-          <strong>How this works:</strong> Submissions go as JSON to your Power Automate flow, which writes each reflection as a row in your Excel workbook on the school OneDrive. No data leaves M365.
-        </div>
-      </div>
-    </div>
-  );
-}
-
 // ─── Shared Styles ───────────────────────────────────────────────────────────
 const h2Style = { fontSize: "19px", fontWeight: 800, color: "#1e293b", margin: "0 0 5px" };
 const descStyle = { fontSize: "13px", color: "#64748b", margin: "0 0 18px", lineHeight: "1.5" };
@@ -899,9 +873,7 @@ function StepReview({ name, yearGroup, domain, skill, level, context, subject, s
 
 // ─── Main App ────────────────────────────────────────────────────────────────
 export default function ToolsFormLive() {
-  const [showSettings, setShowSettings] = useState(false);
   const [showFinder, setShowFinder] = useState(false);
-  const [testResult, setTestResult] = useState(null);
 
   const [step, setStep] = useState(0);
   const [name, setName] = useState("");
@@ -937,15 +909,6 @@ export default function ToolsFormLive() {
     return { timestamp: now, date: now.slice(0, 10), term: getTerm(now), name: name.trim(), studentName: name.trim(), yearGroup, regClass: regClass.trim() || "", domain, skill, level, iCanStatement: (PROGRESSION[skill] || [])[level - 1] || "", context, subject: subject || "", situation: star.situation, task: star.task, action: star.action, result: star.result };
   }, [name, yearGroup, regClass, domain, skill, level, context, subject, star]);
 
-  const handleTest = async () => {
-    setTestResult(null);
-    try {
-      const ts = new Date().toISOString();
-      await submitToWebhook({ timestamp: ts, date: ts.slice(0, 10), term: getTerm(ts), name: "TEST SUBMISSION", studentName: "TEST SUBMISSION", yearGroup: "S1", regClass: "TEST", domain: "Works Hard", skill: "Problem Solving", level: 5, iCanStatement: "I can identify several possible solutions to a problem", context: "Curriculum", subject: "Test Subject", situation: "Test submission from QHS Tools for Success form.", task: "Testing the Power Automate webhook.", action: "Sent a POST request.", result: "If you see this row in Excel, it works." });
-      setTestResult({ ok: true });
-    } catch (err) { setTestResult({ ok: false, msg: err.message }); }
-  };
-
   const handleSubmit = async () => {
     setSubmitting(true); setSubmitError(null);
     try { await submitToWebhook(buildPayload()); setSubmitted(true); }
@@ -980,21 +943,17 @@ export default function ToolsFormLive() {
   }
 
   return (
-    <div style={{ fontFamily: "'DM Sans', sans-serif", minHeight: "100vh", background: "linear-gradient(180deg, #0f172a 0%, #1e293b 110px, #f8fafc 111px)" }}>
+    <div style={{ fontFamily: "'DM Sans', sans-serif", minHeight: "100vh", background: "#f8fafc" }}>
       <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-      {showSettings && <SettingsPanel onClose={() => setShowSettings(false)} testResult={testResult} onTest={handleTest} />}
       {showFinder && <SkillsFinder onClose={() => setShowFinder(false)} onSelectSkill={handleFinderSelect} />}
 
-      <div style={{ padding: "16px 24px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          <img src="https://github.com/user-attachments/assets/c4156770-e94f-4261-b3c8-befd83add47b" alt="QHS Logo" style={{ width: 120, height: 120, borderRadius: "9px", objectFit: "contain" }} />
-          <div>
-            <div style={{ fontSize: "15px", fontWeight: 800, color: "#fff" }}>QHS Tools for Success</div>
-            <div style={{ fontSize: "10px", color: "#94a3b8" }}>Skills Reflection</div>
+      <div style={{ background: "#fff", borderBottom: "1px solid #e2e8f0", padding: "14px 24px" }}>
+        <div style={{ maxWidth: "660px", margin: "0 auto", display: "flex", alignItems: "center", gap: "16px" }}>
+          <img src="https://github.com/user-attachments/assets/c4156770-e94f-4261-b3c8-befd83add47b" alt="Queensferry High School" style={{ height: 52, width: "auto", objectFit: "contain" }} />
+          <div style={{ borderLeft: "2px solid #e2e8f0", paddingLeft: "16px" }}>
+            <div style={{ fontSize: "15px", fontWeight: 800, color: "#1e293b" }}>Tools for Success</div>
+            <div style={{ fontSize: "11px", color: "#64748b", fontWeight: 500 }}>Skills Reflection</div>
           </div>
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <button onClick={() => setShowSettings(true)} style={{ background: "rgba(255,255,255,0.1)", border: "none", borderRadius: "8px", padding: "8px 14px", fontSize: "12px", color: "#94a3b8", cursor: "pointer", fontFamily: "'DM Sans', sans-serif", fontWeight: 600 }}>⚙️</button>
         </div>
       </div>
 

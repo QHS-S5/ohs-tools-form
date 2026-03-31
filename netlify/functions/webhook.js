@@ -22,12 +22,13 @@ export async function handler(event) {
   }
 
   // Only allow HTTPS requests to Microsoft Power Automate / Azure endpoints
+  let isPowerPlatform = false;
   try {
     const parsed = new URL(targetUrl);
     const host = parsed.hostname;
-    const isMicrosoftHost =
-      host.endsWith(".logic.azure.com") ||
-      host.endsWith(".api.powerplatform.com");
+    isPowerPlatform = host.endsWith(".api.powerplatform.com");
+    const isLogicApps = host.endsWith(".logic.azure.com");
+    const isMicrosoftHost = isPowerPlatform || isLogicApps;
     if (parsed.protocol !== "https:" || !isMicrosoftHost) {
       return { statusCode: 400, body: JSON.stringify({ error: "Invalid webhook URL: must be an HTTPS Microsoft/Azure endpoint" }) };
     }
@@ -37,7 +38,9 @@ export async function handler(event) {
 
   const headers = { "Content-Type": "application/json" };
   if (webhookKey) {
-    headers["x-qhs-key"] = webhookKey;
+    // Power Platform direct invocation URLs use "api-key" header
+    // Logic Apps URLs use custom "x-qhs-key" header for flow-level validation
+    headers[isPowerPlatform ? "api-key" : "x-qhs-key"] = webhookKey;
   }
 
   try {
@@ -52,12 +55,13 @@ export async function handler(event) {
       try { upstream = await response.text(); } catch { /* ignore */ }
 
       // Build a descriptive error for the client
+      const headerName = isPowerPlatform ? "api-key" : "x-qhs-key";
       let error = `Webhook responded with ${response.status}: ${response.statusText}`;
       if (response.status === 401 || response.status === 403) {
         const keyConfigured = Boolean(webhookKey);
         error += keyConfigured
-          ? ". An x-qhs-key header was sent but the endpoint rejected it — verify that WEBHOOK_KEY matches the key expected by your Power Automate flow."
-          : ". No WEBHOOK_KEY environment variable is set — add it in your Netlify site settings under Environment Variables.";
+          ? `. A ${headerName} header was sent but the endpoint rejected it — verify that WEBHOOK_KEY matches the key expected by your Power Automate flow.`
+          : `. No WEBHOOK_KEY environment variable is set — add it in your Netlify site settings under Environment Variables.`;
       }
       if (upstream) {
         error += ` Upstream response: ${upstream.slice(0, 200)}`;

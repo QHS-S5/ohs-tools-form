@@ -2,11 +2,47 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <title>QHS Tools for Success</title>
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font-family: sans-serif; }
+      body {
+        font-family: sans-serif;
+        -webkit-text-size-adjust: 100%;
+        -webkit-tap-highlight-color: transparent;
+      }
+      /* Prevent Safari auto-zoom on input focus */
+      input, textarea, select, button {
+        font-size: 16px !important;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+      }
+      textarea {
+        -webkit-appearance: none;
+        -webkit-border-radius: 0;
+      }
+      /* Ensure touch targets are accessible */
+      button, [role="button"] {
+        min-height: 44px;
+        touch-action: manipulation;
+      }
+      /* Fix 100vh on Safari */
+      .full-height {
+        min-height: 100vh;
+        min-height: 100dvh;
+      }
+      /* Safe area padding for notch/home-bar devices */
+      .safe-bottom {
+        padding-bottom: max(40px, env(safe-area-inset-bottom, 40px));
+      }
+      /* Smooth scrolling for iOS */
+      .scroll-container {
+        -webkit-overflow-scrolling: touch;
+        overflow-y: auto;
+      }
     </style>
   </head>
   <body>

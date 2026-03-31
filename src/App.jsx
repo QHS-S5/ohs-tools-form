@@ -518,8 +518,8 @@ async function submitToWebhook(data) {
 const h2Style = { fontSize: "19px", fontWeight: 800, color: "#1e293b", margin: "0 0 5px" };
 const descStyle = { fontSize: "13px", color: "#64748b", margin: "0 0 18px", lineHeight: "1.5" };
 const labelStyle = { fontSize: "12px", fontWeight: 700, color: "#475569", display: "block", marginBottom: "6px" };
-const inputStyle = { width: "100%", padding: "11px 13px", borderRadius: "10px", border: "1.5px solid #e2e8f0", fontSize: "14px", outline: "none", boxSizing: "border-box", fontFamily: "'DM Sans', sans-serif", color: "#1e293b" };
-const chipStyle = (active) => ({ padding: "7px 14px", borderRadius: "8px", cursor: "pointer", border: `1.5px solid ${active ? "#6366f1" : "#e2e8f0"}`, background: active ? "#eef2ff" : "#fff", fontSize: "13px", fontWeight: active ? 700 : 500, color: active ? "#6366f1" : "#475569", transition: "all 0.15s" });
+const inputStyle = { width: "100%", padding: "11px 13px", borderRadius: "10px", border: "1.5px solid #e2e8f0", fontSize: "16px", outline: "none", boxSizing: "border-box", fontFamily: "'DM Sans', sans-serif", color: "#1e293b", WebkitAppearance: "none" };
+const chipStyle = (active) => ({ padding: "10px 16px", borderRadius: "8px", cursor: "pointer", border: `1.5px solid ${active ? "#6366f1" : "#e2e8f0"}`, background: active ? "#eef2ff" : "#fff", fontSize: "14px", fontWeight: active ? 700 : 500, color: active ? "#6366f1" : "#475569", transition: "all 0.15s", WebkitTapHighlightColor: "transparent", minHeight: "44px", display: "flex", alignItems: "center", justifyContent: "center" });
 
 // ─── Skills Finder Modal ────────────────────────────────────────────────────
 function SkillsFinder({ onClose, onSelectSkill }) {
@@ -544,13 +544,13 @@ function SkillsFinder({ onClose, onSelectSkill }) {
   const stepNum = path.length;
 
   return (
-    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center", padding: "20px" }}>
-      <div style={{ background: "#fff", borderRadius: "20px", padding: "28px", maxWidth: "520px", width: "100%", boxShadow: "0 20px 60px rgba(0,0,0,0.2)", fontFamily: "'DM Sans', sans-serif" }}>
+    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center", padding: "20px", WebkitOverflowScrolling: "touch", overflowY: "auto" }}>
+      <div style={{ background: "#fff", borderRadius: "20px", padding: "28px", maxWidth: "520px", width: "100%", boxShadow: "0 20px 60px rgba(0,0,0,0.2)", fontFamily: "'DM Sans', sans-serif", margin: "auto" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "6px" }}>
           <h2 style={{ margin: 0, fontSize: "18px", fontWeight: 800, color: "#1e293b" }}>🔍 Skills Finder</h2>
-          <button onClick={onClose} style={{ background: "none", border: "none", fontSize: "20px", cursor: "pointer", color: "#94a3b8" }}>✕</button>
+          <button onClick={onClose} style={{ background: "none", border: "none", fontSize: "20px", cursor: "pointer", color: "#94a3b8", minHeight: "44px", minWidth: "44px", display: "flex", alignItems: "center", justifyContent: "center", WebkitTapHighlightColor: "transparent" }}>✕</button>
         </div>
-        <p style={{ fontSize: "12px", color: "#64748b", margin: "0 0 16px", lineHeight: "1.5" }}>
+        <p style={{ fontSize: "13px", color: "#64748b", margin: "0 0 16px", lineHeight: "1.5" }}>
           Answer 3 quick questions and we'll help you figure out which skill you used.
         </p>
 
@@ -560,29 +560,27 @@ function SkillsFinder({ onClose, onSelectSkill }) {
           ))}
         </div>
 
-        <div style={{ fontSize: "15px", fontWeight: 700, color: "#1e293b", marginBottom: "16px", lineHeight: "1.5" }}>
+        <div style={{ fontSize: "16px", fontWeight: 700, color: "#1e293b", marginBottom: "16px", lineHeight: "1.5" }}>
           {currentNode.question}
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
           {currentNode.options.map((opt, i) => (
             <button key={i} onClick={() => handleOption(opt)}
-              style={{ display: "flex", alignItems: "center", gap: "12px", padding: "14px 16px", borderRadius: "12px", border: "2px solid #e2e8f0", background: "#fff", cursor: "pointer", textAlign: "left", fontFamily: "'DM Sans', sans-serif", transition: "all 0.15s" }}
-              onMouseOver={(e) => { e.currentTarget.style.borderColor = "#6366f1"; e.currentTarget.style.background = "#eef2ff"; }}
-              onMouseOut={(e) => { e.currentTarget.style.borderColor = "#e2e8f0"; e.currentTarget.style.background = "#fff"; }}>
+              style={{ display: "flex", alignItems: "center", gap: "12px", padding: "16px", borderRadius: "12px", border: "2px solid #e2e8f0", background: "#fff", cursor: "pointer", textAlign: "left", fontFamily: "'DM Sans', sans-serif", WebkitTapHighlightColor: "transparent", minHeight: "56px" }}>
               <span style={{ fontSize: "24px", flexShrink: 0 }}>{opt.emoji}</span>
-              <span style={{ fontSize: "13px", fontWeight: 600, color: "#1e293b", lineHeight: "1.5" }}>{opt.label}</span>
+              <span style={{ fontSize: "14px", fontWeight: 600, color: "#1e293b", lineHeight: "1.5" }}>{opt.label}</span>
             </button>
           ))}
         </div>
 
         <div style={{ display: "flex", justifyContent: "space-between", marginTop: "18px" }}>
           <button onClick={handleBack} disabled={path.length <= 1}
-            style={{ padding: "8px 18px", borderRadius: "8px", fontSize: "12px", fontWeight: 600, background: "#f1f5f9", color: path.length <= 1 ? "#cbd5e1" : "#475569", border: "none", cursor: path.length <= 1 ? "default" : "pointer", fontFamily: "'DM Sans', sans-serif" }}>
+            style={{ padding: "10px 20px", borderRadius: "8px", fontSize: "14px", fontWeight: 600, background: "#f1f5f9", color: path.length <= 1 ? "#cbd5e1" : "#475569", border: "none", cursor: path.length <= 1 ? "default" : "pointer", fontFamily: "'DM Sans', sans-serif", minHeight: "44px", WebkitTapHighlightColor: "transparent" }}>
             ← Back
           </button>
           <button onClick={onClose}
-            style={{ padding: "8px 18px", borderRadius: "8px", fontSize: "12px", fontWeight: 600, background: "#f1f5f9", color: "#64748b", border: "none", cursor: "pointer", fontFamily: "'DM Sans', sans-serif" }}>
+            style={{ padding: "10px 20px", borderRadius: "8px", fontSize: "14px", fontWeight: 600, background: "#f1f5f9", color: "#64748b", border: "none", cursor: "pointer", fontFamily: "'DM Sans', sans-serif", minHeight: "44px", WebkitTapHighlightColor: "transparent" }}>
             I'll pick myself
           </button>
         </div>
@@ -625,21 +623,19 @@ function StepDomain({ selected, onSelect, onOpenFinder }) {
       <h2 style={h2Style}>Which area does this skill belong to?</h2>
       <p style={descStyle}>Think about the skill you developed. Does it fit under <strong style={{ color: "#2563eb" }}>Works Hard</strong> or <strong style={{ color: "#dc2626" }}>Is Kind</strong>?</p>
       <button onClick={onOpenFinder}
-        style={{ display: "flex", alignItems: "center", gap: "8px", width: "100%", padding: "12px 16px", borderRadius: "12px", border: "2px dashed #c7d2fe", background: "#fafaff", cursor: "pointer", fontFamily: "'DM Sans', sans-serif", marginBottom: "16px", transition: "all 0.15s" }}
-        onMouseOver={(e) => { e.currentTarget.style.borderColor = "#6366f1"; e.currentTarget.style.background = "#eef2ff"; }}
-        onMouseOut={(e) => { e.currentTarget.style.borderColor = "#c7d2fe"; e.currentTarget.style.background = "#fafaff"; }}>
-        <span style={{ fontSize: "20px" }}>🔍</span>
+        style={{ display: "flex", alignItems: "center", gap: "10px", width: "100%", padding: "14px 16px", borderRadius: "12px", border: "2px dashed #c7d2fe", background: "#fafaff", cursor: "pointer", fontFamily: "'DM Sans', sans-serif", marginBottom: "16px", WebkitTapHighlightColor: "transparent", minHeight: "56px" }}>
+        <span style={{ fontSize: "22px" }}>🔍</span>
         <div style={{ textAlign: "left" }}>
-          <div style={{ fontSize: "13px", fontWeight: 700, color: "#6366f1" }}>Not sure? Try the Skills Finder</div>
-          <div style={{ fontSize: "11px", color: "#94a3b8" }}>Answer 3 quick questions and we'll help you find the right skill</div>
+          <div style={{ fontSize: "14px", fontWeight: 700, color: "#6366f1" }}>Not sure? Try the Skills Finder</div>
+          <div style={{ fontSize: "12px", color: "#94a3b8" }}>Answer 3 quick questions and we'll help you find the right skill</div>
         </div>
       </button>
       <div style={{ display: "flex", gap: "14px" }}>
         {Object.entries(FRAMEWORK).map(([domain, data]) => (
-          <div key={domain} onClick={() => onSelect(domain)} style={{ flex: 1, padding: "22px 18px", borderRadius: "14px", cursor: "pointer", border: `2.5px solid ${selected === domain ? data.color : "#e2e8f0"}`, background: selected === domain ? `${data.color}08` : "#fff", transition: "all 0.2s" }}>
-            <div style={{ fontSize: "26px", marginBottom: "6px" }}>{domain === "Works Hard" ? "💪" : "❤️"}</div>
+          <div key={domain} onClick={() => onSelect(domain)} style={{ flex: 1, padding: "22px 18px", borderRadius: "14px", cursor: "pointer", border: `2.5px solid ${selected === domain ? data.color : "#e2e8f0"}`, background: selected === domain ? `${data.color}08` : "#fff", transition: "all 0.2s", WebkitTapHighlightColor: "transparent", minHeight: "100px" }}>
+            <div style={{ fontSize: "28px", marginBottom: "6px" }}>{domain === "Works Hard" ? "💪" : "❤️"}</div>
             <div style={{ fontSize: "17px", fontWeight: 800, color: data.color }}>{domain}</div>
-            <div style={{ fontSize: "11px", color: "#94a3b8", marginTop: "8px", lineHeight: "1.5" }}>
+            <div style={{ fontSize: "12px", color: "#94a3b8", marginTop: "8px", lineHeight: "1.5" }}>
               {data.pairs.map((p) => p.label).join(" · ")}
             </div>
           </div>
@@ -660,9 +656,9 @@ function StepSkill({ domain, selected, onSelect }) {
           <div style={{ fontSize: "10px", fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.8px", marginBottom: "7px" }}>{pair.label}</div>
           <div style={{ display: "flex", gap: "10px" }}>
             {pair.skills.map((skill) => (
-              <div key={skill.name} onClick={() => onSelect(skill.name)} style={{ flex: 1, padding: "14px", borderRadius: "12px", cursor: "pointer", border: `2px solid ${selected === skill.name ? data.color : "#e2e8f0"}`, background: selected === skill.name ? `${data.color}08` : "#fff", transition: "all 0.2s" }}>
-                <div style={{ fontSize: "14px", fontWeight: 700, color: "#1e293b" }}>{skill.name}</div>
-                <div style={{ fontSize: "11px", color: "#64748b", marginTop: "3px", lineHeight: "1.4" }}>{skill.def}</div>
+              <div key={skill.name} onClick={() => onSelect(skill.name)} style={{ flex: 1, padding: "16px", borderRadius: "12px", cursor: "pointer", border: `2px solid ${selected === skill.name ? data.color : "#e2e8f0"}`, background: selected === skill.name ? `${data.color}08` : "#fff", transition: "all 0.2s", WebkitTapHighlightColor: "transparent", minHeight: "60px" }}>
+                <div style={{ fontSize: "15px", fontWeight: 700, color: "#1e293b" }}>{skill.name}</div>
+                <div style={{ fontSize: "12px", color: "#64748b", marginTop: "3px", lineHeight: "1.4" }}>{skill.def}</div>
               </div>
             ))}
           </div>
@@ -688,12 +684,12 @@ function StepLevel({ skill, level, onSelect }) {
           const isHelpOpen = expandedHelp === lv;
           return (
             <div key={lv} style={{ borderRadius: "10px", border: `2px solid ${isSel ? "#6366f1" : isBelow ? "#c7d2fe" : "#f1f5f9"}`, background: isSel ? "#eef2ff" : isBelow ? "#fafaff" : "#fff", transition: "all 0.12s" }}>
-              <div onClick={() => onSelect(lv)} style={{ display: "flex", alignItems: "flex-start", gap: "11px", padding: "11px 13px", cursor: "pointer" }}>
+              <div onClick={() => onSelect(lv)} style={{ display: "flex", alignItems: "flex-start", gap: "11px", padding: "13px 13px", cursor: "pointer", minHeight: "48px", WebkitTapHighlightColor: "transparent" }}>
                 <div style={{ width: 28, height: 28, borderRadius: "50%", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", background: isSel ? "#6366f1" : isBelow ? "#c7d2fe" : "#f1f5f9", color: isSel ? "#fff" : isBelow ? "#6366f1" : "#94a3b8", fontSize: "12px", fontWeight: 800 }}>{lv}</div>
                 <div style={{ flex: 1, fontSize: "12.5px", color: isSel ? "#1e293b" : "#475569", fontWeight: isSel ? 600 : 400, lineHeight: "1.5", paddingTop: "3px" }}>{stmt}</div>
                 {explainers[i] && (
                   <div onClick={(e) => { e.stopPropagation(); setExpandedHelp(isHelpOpen ? null : lv); }}
-                    style={{ width: 22, height: 22, borderRadius: "50%", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", background: isHelpOpen ? "#6366f1" : "#f1f5f9", color: isHelpOpen ? "#fff" : "#94a3b8", fontSize: "11px", fontWeight: 800, cursor: "pointer", marginTop: "2px", transition: "all 0.15s" }}>?</div>
+                    style={{ width: 32, height: 32, borderRadius: "50%", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", background: isHelpOpen ? "#6366f1" : "#f1f5f9", color: isHelpOpen ? "#fff" : "#94a3b8", fontSize: "13px", fontWeight: 800, cursor: "pointer", marginTop: "0px", transition: "all 0.15s", WebkitTapHighlightColor: "transparent" }}>?</div>
                 )}
               </div>
               {isHelpOpen && explainers[i] && (
@@ -716,9 +712,9 @@ function StepContext({ context, onSelect, subject, onSubject }) {
       <p style={descStyle}>Select the context where this experience happened.</p>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
         {CONTEXTS.map((ctx) => (
-          <div key={ctx.value} onClick={() => onSelect(ctx.value)} style={{ padding: "16px 14px", borderRadius: "12px", cursor: "pointer", border: `2px solid ${context === ctx.value ? "#6366f1" : "#e2e8f0"}`, background: context === ctx.value ? "#eef2ff" : "#fff", transition: "all 0.2s" }}>
-            <div style={{ fontSize: "20px", marginBottom: "4px" }}>{ctx.icon}</div>
-            <div style={{ fontSize: "13px", fontWeight: 700, color: "#1e293b" }}>{ctx.label}</div>
+          <div key={ctx.value} onClick={() => onSelect(ctx.value)} style={{ padding: "18px 14px", borderRadius: "12px", cursor: "pointer", border: `2px solid ${context === ctx.value ? "#6366f1" : "#e2e8f0"}`, background: context === ctx.value ? "#eef2ff" : "#fff", transition: "all 0.2s", WebkitTapHighlightColor: "transparent", minHeight: "70px" }}>
+            <div style={{ fontSize: "22px", marginBottom: "4px" }}>{ctx.icon}</div>
+            <div style={{ fontSize: "14px", fontWeight: 700, color: "#1e293b" }}>{ctx.label}</div>
           </div>
         ))}
       </div>
@@ -766,7 +762,7 @@ function StepStar({ star, onChange, skill, context, subject }) {
       {exemplar && (
         <div style={{ marginBottom: "16px" }}>
           <button onClick={() => setShowExemplar((v) => !v)}
-            style={{ display: "flex", alignItems: "center", gap: "8px", width: "100%", padding: "10px 14px", borderRadius: "10px", border: `2px solid ${showExemplar ? "#6366f1" : "#e2e8f0"}`, background: showExemplar ? "#eef2ff" : "#fafaff", cursor: "pointer", fontFamily: "'DM Sans', sans-serif", transition: "all 0.15s" }}>
+            style={{ display: "flex", alignItems: "center", gap: "10px", width: "100%", padding: "12px 14px", borderRadius: "10px", border: `2px solid ${showExemplar ? "#6366f1" : "#e2e8f0"}`, background: showExemplar ? "#eef2ff" : "#fafaff", cursor: "pointer", fontFamily: "'DM Sans', sans-serif", WebkitTapHighlightColor: "transparent", minHeight: "52px" }}>
             <span style={{ fontSize: "16px" }}>{showExemplar ? "📖" : "📘"}</span>
             <div style={{ textAlign: "left", flex: 1 }}>
               <div style={{ fontSize: "12px", fontWeight: 700, color: showExemplar ? "#6366f1" : "#475569" }}>
@@ -802,7 +798,7 @@ function StepStar({ star, onChange, skill, context, subject }) {
             </div>
             {star[key].length < 5 && (
               <button onClick={() => setShowStarters((prev) => ({ ...prev, [key]: !prev[key] }))}
-                style={{ background: showStarters[key] ? "#6366f1" : "#f1f5f9", color: showStarters[key] ? "#fff" : "#6366f1", border: "none", borderRadius: "6px", padding: "4px 10px", fontSize: "10px", fontWeight: 700, cursor: "pointer", fontFamily: "'DM Sans', sans-serif", transition: "all 0.15s" }}>
+                style={{ background: showStarters[key] ? "#6366f1" : "#f1f5f9", color: showStarters[key] ? "#fff" : "#6366f1", border: "none", borderRadius: "8px", padding: "8px 14px", fontSize: "12px", fontWeight: 700, cursor: "pointer", fontFamily: "'DM Sans', sans-serif", minHeight: "36px", WebkitTapHighlightColor: "transparent" }}>
                 {showStarters[key] ? "Hide starters" : "Help me start"}
               </button>
             )}
@@ -812,16 +808,14 @@ function StepStar({ star, onChange, skill, context, subject }) {
             <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: "8px" }}>
               {getStarters(key).map((starter, i) => (
                 <button key={i} onClick={() => { onChange(key, starter); setShowStarters((prev) => ({ ...prev, [key]: false })); }}
-                  style={{ padding: "6px 12px", borderRadius: "8px", border: "1.5px solid #c7d2fe", background: "#fafaff", fontSize: "12px", color: "#475569", cursor: "pointer", fontFamily: "'DM Sans', sans-serif", textAlign: "left", lineHeight: "1.4", transition: "all 0.15s" }}
-                  onMouseOver={(e) => { e.target.style.background = "#eef2ff"; e.target.style.borderColor = "#6366f1"; }}
-                  onMouseOut={(e) => { e.target.style.background = "#fafaff"; e.target.style.borderColor = "#c7d2fe"; }}>
+                  style={{ padding: "10px 14px", borderRadius: "8px", border: "1.5px solid #c7d2fe", background: "#fafaff", fontSize: "13px", color: "#475569", cursor: "pointer", fontFamily: "'DM Sans', sans-serif", textAlign: "left", lineHeight: "1.4", WebkitTapHighlightColor: "transparent", minHeight: "44px" }}>
                   {starter}
                 </button>
               ))}
             </div>
           )}
           <textarea value={star[key]} onChange={(e) => onChange(key, e.target.value)} placeholder={`Write about the ${labels[key].toLowerCase()}...`} rows={3}
-            style={{ width: "100%", padding: "11px 13px", borderRadius: "10px", border: "1.5px solid #e2e8f0", fontSize: "13px", lineHeight: "1.6", resize: "vertical", outline: "none", boxSizing: "border-box", fontFamily: "'DM Sans', sans-serif", color: "#1e293b" }}
+            style={{ width: "100%", padding: "12px 13px", borderRadius: "10px", border: "1.5px solid #e2e8f0", fontSize: "16px", lineHeight: "1.6", resize: "vertical", outline: "none", boxSizing: "border-box", fontFamily: "'DM Sans', sans-serif", color: "#1e293b", WebkitAppearance: "none" }}
             onFocus={(e) => e.target.style.borderColor = colors[key]} onBlur={(e) => e.target.style.borderColor = "#e2e8f0"} />
           <div style={{ fontSize: "10px", color: star[key].length < 10 ? "#f59e0b" : "#10b981", textAlign: "right", marginTop: "2px" }}>
             {star[key].length} characters {star[key].length < 10 ? "(aim for more detail)" : "✓"}
@@ -929,21 +923,21 @@ export default function ToolsFormLive() {
 
   if (submitted) {
     return (
-      <div style={{ fontFamily: "'DM Sans', sans-serif", minHeight: "100vh", background: "linear-gradient(180deg, #f0fdf4 0%, #f8fafc 100%)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div className="full-height" style={{ fontFamily: "'DM Sans', sans-serif", background: "linear-gradient(180deg, #f0fdf4 0%, #f8fafc 100%)", display: "flex", alignItems: "center", justifyContent: "center" }}>
         <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
         <div style={{ textAlign: "center", maxWidth: "480px", padding: "40px" }}>
           <div style={{ fontSize: "64px", marginBottom: "16px" }}>✅</div>
           <h1 style={{ fontSize: "24px", fontWeight: 800, color: "#1e293b", margin: "0 0 10px" }}>Reflection recorded!</h1>
           <p style={{ fontSize: "14px", color: "#64748b", lineHeight: "1.6", margin: "0 0 6px" }}>Your <strong>{skill}</strong> reflection (Level {level}) has been saved.</p>
           <p style={{ fontSize: "12px", color: "#94a3b8", margin: "0 0 28px" }}>Your reflection has been saved to your school OneDrive.</p>
-          <button onClick={handleReset} style={{ padding: "14px 32px", borderRadius: "12px", fontSize: "15px", fontWeight: 700, background: "#6366f1", color: "#fff", border: "none", cursor: "pointer", fontFamily: "'DM Sans', sans-serif" }}>Add another reflection</button>
+          <button onClick={handleReset} style={{ padding: "14px 32px", borderRadius: "12px", fontSize: "16px", fontWeight: 700, background: "#6366f1", color: "#fff", border: "none", cursor: "pointer", fontFamily: "'DM Sans', sans-serif", minHeight: "50px", WebkitTapHighlightColor: "transparent" }}>Add another reflection</button>
         </div>
       </div>
     );
   }
 
   return (
-    <div style={{ fontFamily: "'DM Sans', sans-serif", minHeight: "100vh", background: "#f8fafc" }}>
+    <div className="full-height" style={{ fontFamily: "'DM Sans', sans-serif", background: "#f8fafc" }}>
       <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
       {showFinder && <SkillsFinder onClose={() => setShowFinder(false)} onSelectSkill={handleFinderSelect} />}
 
@@ -982,15 +976,15 @@ export default function ToolsFormLive() {
 
         {submitError && <div style={{ padding: "10px 14px", borderRadius: "8px", fontSize: "13px", background: "#fef2f2", color: "#dc2626", border: "1px solid #fecaca", marginBottom: "14px" }}>Submission failed: {submitError}</div>}
 
-        <div style={{ display: "flex", justifyContent: "space-between", paddingBottom: "40px" }}>
+        <div className="safe-bottom" style={{ display: "flex", justifyContent: "space-between" }}>
           <button onClick={() => setStep((s) => Math.max(0, s - 1))} disabled={step === 0}
-            style={{ padding: "11px 22px", borderRadius: "10px", fontSize: "13px", fontWeight: 600, background: "#f1f5f9", color: step === 0 ? "#cbd5e1" : "#475569", border: "none", cursor: step === 0 ? "default" : "pointer", fontFamily: "'DM Sans', sans-serif" }}>← Back</button>
+            style={{ padding: "14px 24px", borderRadius: "10px", fontSize: "15px", fontWeight: 600, background: "#f1f5f9", color: step === 0 ? "#cbd5e1" : "#475569", border: "none", cursor: step === 0 ? "default" : "pointer", fontFamily: "'DM Sans', sans-serif", minHeight: "48px", WebkitTapHighlightColor: "transparent" }}>← Back</button>
           {step < 6 ? (
             <button onClick={() => setStep((s) => s + 1)} disabled={!canAdvance}
-              style={{ padding: "11px 26px", borderRadius: "10px", fontSize: "13px", fontWeight: 700, background: canAdvance ? "#6366f1" : "#e2e8f0", color: canAdvance ? "#fff" : "#94a3b8", border: "none", cursor: canAdvance ? "pointer" : "default", fontFamily: "'DM Sans', sans-serif", transition: "all 0.2s" }}>Next →</button>
+              style={{ padding: "14px 28px", borderRadius: "10px", fontSize: "15px", fontWeight: 700, background: canAdvance ? "#6366f1" : "#e2e8f0", color: canAdvance ? "#fff" : "#94a3b8", border: "none", cursor: canAdvance ? "pointer" : "default", fontFamily: "'DM Sans', sans-serif", minHeight: "48px", WebkitTapHighlightColor: "transparent" }}>Next →</button>
           ) : (
             <button onClick={handleSubmit} disabled={submitting}
-              style={{ padding: "11px 30px", borderRadius: "10px", fontSize: "13px", fontWeight: 700, background: submitting ? "#94a3b8" : "#10b981", color: "#fff", border: "none", cursor: submitting ? "default" : "pointer", fontFamily: "'DM Sans', sans-serif" }}>
+              style={{ padding: "14px 32px", borderRadius: "10px", fontSize: "15px", fontWeight: 700, background: submitting ? "#94a3b8" : "#10b981", color: "#fff", border: "none", cursor: submitting ? "default" : "pointer", fontFamily: "'DM Sans', sans-serif", minHeight: "48px", WebkitTapHighlightColor: "transparent" }}>
               {submitting ? "Submitting..." : "Submit Reflection ✓"}
             </button>
           )}

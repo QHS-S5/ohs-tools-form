@@ -362,7 +362,18 @@ async function submitToWebhook(data) {
   });
   if (!r.ok) {
     let msg = `HTTP ${r.status}`;
-    try { const err = await r.json(); msg = err.error || msg; } catch { /* use default msg */ }
+    let debugInfo = null;
+    try {
+      const err = await r.json();
+      msg = err.error || msg;
+      debugInfo = err.debug;
+    } catch { /* use default msg */ }
+
+    // Include debug info in the error if available
+    if (debugInfo) {
+      const debugStr = `\n\nDebug Info:\n- URL Type: ${debugInfo.urlType}\n- Header: ${debugInfo.headerSent}\n- Key Length: ${debugInfo.keyLength}\n- Key Preview: ${debugInfo.keyPreview}\n- Has Whitespace: ${debugInfo.hasWhitespace}\n- Length Mismatch: ${debugInfo.lengthMismatch}`;
+      msg += debugStr;
+    }
     throw new Error(msg);
   }
   return r;

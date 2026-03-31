@@ -37,7 +37,7 @@ export async function handler(event) {
 
   const headers = { "Content-Type": "application/json" };
   if (webhookKey) {
-    headers["api-key"] = webhookKey;
+    headers["x-qhs-key"] = webhookKey;
   }
 
   try {
@@ -56,7 +56,7 @@ export async function handler(event) {
       if (response.status === 401 || response.status === 403) {
         const keyConfigured = Boolean(webhookKey);
         error += keyConfigured
-          ? ". An api-key was sent but the endpoint rejected it — verify that WEBHOOK_KEY matches the key expected by your Power Automate flow."
+          ? ". An x-qhs-key header was sent but the endpoint rejected it — verify that WEBHOOK_KEY matches the key expected by your Power Automate flow."
           : ". No WEBHOOK_KEY environment variable is set — add it in your Netlify site settings under Environment Variables.";
       }
       if (upstream) {

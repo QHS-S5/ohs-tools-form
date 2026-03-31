@@ -728,7 +728,7 @@ export default function ToolsFormLive() {
 
       <div style={{ padding: "16px 24px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          <img src="https://github.com/user-attachments/assets/c4156770-e94f-4261-b3c8-befd83add47b" alt="QHS Logo" style={{ width: 48, height: 48, borderRadius: "9px", objectFit: "contain" }} />
+          <img src="https://github.com/user-attachments/assets/c4156770-e94f-4261-b3c8-befd83add47b" alt="QHS Logo" style={{ width: 120, height: 120, borderRadius: "9px", objectFit: "contain" }} />
           <div>
             <div style={{ fontSize: "15px", fontWeight: 800, color: "#fff" }}>QHS Tools for Success</div>
             <div style={{ fontSize: "10px", color: "#94a3b8" }}>Skills Reflection</div>
